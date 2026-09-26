@@ -1,178 +1,631 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Air Pollution Prediction</title>
+    <title>AirSense AI - Air Pollution Prediction</title>
 
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f3;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 700px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
-        }
-
-        h1 {
-            text-align: center;
-            color: #1f4e79;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 25px;
-            border: none;
-            border-radius: 8px;
-            background: #1f4e79;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #163a5a;
-        }
-
-        .result {
-            margin-top: 25px;
-            padding: 20px;
-            text-align: center;
-            background: #e8f5e9;
-            border-radius: 10px;
-        }
-
-        .aqi {
-            font-size: 35px;
-            font-weight: bold;
-            color: #1f4e79;
-        }
-
-        .category {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-    </style>
-
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-<div class="container">
+    <!-- ================= HEADER ================= -->
 
-    <h1>🌍 Air Pollution Prediction</h1>
+    <header class="navbar">
 
-    <p class="subtitle">
-        Machine Learning Based AQI Prediction System
-    </p>
-
-    <form method="POST">
-
-        <div class="form-grid">
+        <div class="logo">
+            <div class="logo-icon">🌿</div>
 
             <div>
-                <label>PM2.5</label>
-                <input type="number" step="any" name="pm25" required>
+                <h2>AirSense AI</h2>
+                <span>Air Pollution Prediction</span>
             </div>
+        </div>
 
-            <div>
-                <label>PM10</label>
-                <input type="number" step="any" name="pm10" required>
-            </div>
+        <div class="status">
+            <span class="status-dot"></span>
+            AI Model Online
+        </div>
 
-            <div>
-                <label>NO2</label>
-                <input type="number" step="any" name="no2" required>
-            </div>
+    </header>
 
-            <div>
-                <label>SO2</label>
-                <input type="number" step="any" name="so2" required>
-            </div>
 
-            <div>
-                <label>CO</label>
-                <input type="number" step="any" name="co" required>
-            </div>
+    <!-- ================= HERO ================= -->
 
-            <div>
-                <label>O3</label>
-                <input type="number" step="any" name="o3" required>
-            </div>
+    <section class="hero">
 
-            <div>
-                <label>Temperature (°C)</label>
-                <input type="number" step="any" name="temperature" required>
-            </div>
+        <div class="hero-content">
 
-            <div>
-                <label>Humidity (%)</label>
-                <input type="number" step="any" name="humidity" required>
-            </div>
+            <span class="badge">AI-POWERED ENVIRONMENTAL MONITORING</span>
+
+            <h1>
+                Predict Air Quality<br>
+                <span>Before It Changes</span>
+            </h1>
+
+            <p>
+                Enter environmental parameters and let our machine learning
+                model predict the Air Quality Index (AQI).
+            </p>
 
         </div>
 
-        <button type="submit">
-            Predict AQI
-        </button>
-
-    </form>
+    </section>
 
 
-    {% if prediction is not none %}
+    <!-- ================= MAIN ================= -->
 
-    <div class="result">
+    <main class="container">
 
-        <h2>Prediction Result</h2>
+        <div class="dashboard-grid">
 
-        <div class="aqi">
-            AQI: {{ "%.2f"|format(prediction) }}
+
+            <!-- ================= INPUT CARD ================= -->
+
+            <section class="card input-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="section-label">INPUT PARAMETERS</span>
+                        <h2>Environmental Data</h2>
+                    </div>
+
+                    <div class="input-icon">⚙️</div>
+
+                </div>
+
+
+                <form id="predictionForm">
+
+
+                    <!-- PM2.5 -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="pm25">
+                                PM2.5
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="pm25Value"
+                                    value="35"
+                                    readonly
+                                >
+                                <span>µg/m³</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="pm25"
+                            min="0"
+                            max="500"
+                            value="35"
+                        >
+
+                        <div class="range-labels">
+                            <span>0</span>
+                            <span>500</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- PM10 -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="pm10">
+                                PM10
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="pm10Value"
+                                    value="60"
+                                    readonly
+                                >
+                                <span>µg/m³</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="pm10"
+                            min="0"
+                            max="600"
+                            value="60"
+                        >
+
+                        <div class="range-labels">
+                            <span>0</span>
+                            <span>600</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- NO2 -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="no2">
+                                NO₂
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="no2Value"
+                                    value="30"
+                                    readonly
+                                >
+                                <span>µg/m³</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="no2"
+                            min="0"
+                            max="300"
+                            value="30"
+                        >
+
+                        <div class="range-labels">
+                            <span>0</span>
+                            <span>300</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- SO2 -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="so2">
+                                SO₂
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="so2Value"
+                                    value="20"
+                                    readonly
+                                >
+                                <span>µg/m³</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="so2"
+                            min="0"
+                            max="300"
+                            value="20"
+                        >
+
+                        <div class="range-labels">
+                            <span>0</span>
+                            <span>300</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- CO -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="co">
+                                CO
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="coValue"
+                                    value="1"
+                                    readonly
+                                >
+                                <span>mg/m³</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="co"
+                            min="0"
+                            max="20"
+                            step="0.1"
+                            value="1"
+                        >
+
+                        <div class="range-labels">
+                            <span>0</span>
+                            <span>20</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- O3 -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="o3">
+                                O₃
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="o3Value"
+                                    value="40"
+                                    readonly
+                                >
+                                <span>µg/m³</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="o3"
+                            min="0"
+                            max="300"
+                            value="40"
+                        >
+
+                        <div class="range-labels">
+                            <span>0</span>
+                            <span>300</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- TEMPERATURE -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="temperature">
+                                Temperature
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="temperatureValue"
+                                    value="28"
+                                    readonly
+                                >
+                                <span>°C</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="temperature"
+                            min="-10"
+                            max="50"
+                            value="28"
+                        >
+
+                        <div class="range-labels">
+                            <span>-10</span>
+                            <span>50</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- HUMIDITY -->
+
+                    <div class="parameter">
+
+                        <div class="parameter-top">
+
+                            <label for="humidity">
+                                Humidity
+                            </label>
+
+                            <div class="value-box">
+                                <input
+                                    type="text"
+                                    id="humidityValue"
+                                    value="60"
+                                    readonly
+                                >
+                                <span>%</span>
+                            </div>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="humidity"
+                            min="0"
+                            max="100"
+                            value="60"
+                        >
+
+                        <div class="range-labels">
+                            <span>0</span>
+                            <span>100</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="button-group">
+
+                        <button
+                            type="submit"
+                            class="predict-button"
+                        >
+                            <span>Predict Air Quality</span>
+                            <span>→</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            id="resetButton"
+                            class="reset-button"
+                        >
+                            Reset
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ================= RESULT CARD ================= -->
+
+            <section class="card result-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="section-label">PREDICTION RESULT</span>
+                        <h2>Air Quality Index</h2>
+                    </div>
+
+                    <div class="result-icon">📊</div>
+
+                </div>
+
+
+                <!-- AQI CIRCLE -->
+
+                <div class="aqi-container">
+
+                    <div class="aqi-circle">
+
+                        <div class="aqi-inner">
+
+                            <span class="aqi-small">
+                                AQI
+                            </span>
+
+                            <strong id="aqiResult">
+                                --
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="category-box">
+
+                    <span>Air Quality Status</span>
+
+                    <h2 id="categoryResult">
+                        Waiting...
+                    </h2>
+
+                </div>
+
+
+                <!-- HEALTH STATUS -->
+
+                <div class="health-box">
+
+                    <div class="health-icon">
+                        ❤️
+                    </div>
+
+                    <div>
+
+                        <span>HEALTH STATUS</span>
+
+                        <h3 id="statusTitle">
+                            Ready to Predict
+                        </h3>
+
+                        <p id="healthMessage">
+                            Enter the environmental parameters
+                            and click predict.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INPUT SUMMARY -->
+
+                <div class="summary">
+
+                    <h3>Input Summary</h3>
+
+                    <div class="summary-grid">
+
+                        <div class="summary-item">
+
+                            <span>PM2.5</span>
+
+                            <strong id="resultPm25">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>PM10</span>
+
+                            <strong id="resultPm10">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Temperature</span>
+
+                            <strong id="resultTemp">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Humidity</span>
+
+                            <strong id="resultHumidity">
+                                --
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
         </div>
 
-        <div class="category">
-            Category: {{ category }}
-        </div>
 
-    </div>
+        <!-- ================= INFO ================= -->
 
-    {% endif %}
+        <section class="info-section">
 
-</div>
+            <div class="info-card">
+
+                <div class="info-icon">🤖</div>
+
+                <div>
+                    <h3>Machine Learning Prediction</h3>
+
+                    <p>
+                        AirSense AI uses a trained machine learning
+                        model to analyze pollutant and weather
+                        parameters and estimate AQI.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">🌍</div>
+
+                <div>
+                    <h3>Environmental Monitoring</h3>
+
+                    <p>
+                        Monitor important air quality parameters
+                        such as PM2.5, PM10, NO₂, SO₂, CO and O₃.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">💡</div>
+
+                <div>
+                    <h3>Early Awareness</h3>
+
+                    <p>
+                        Prediction results can help users understand
+                        potential changes in air quality.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 AirSense AI · Machine Learning Based
+            Air Pollution Prediction System
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
+
 </html>
